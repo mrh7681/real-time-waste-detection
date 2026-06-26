@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/styles.css">
-    <title>Waste! Waste! Gone!</title>
+    <title>Real-time Waste Detection Vision</title>
 </head>
 <body>
     <header>
@@ -13,16 +13,42 @@
             <span class="slider round"></span>
         </label>
     </header>
-    <main class="center">
-        <div class="content">
-            <form method="POST" enctype="multipart/form-data">
+    <main class="app-shell">
+        <section class="camera-panel">
+            <div class="video-stage">
+                <video id="webcam" autoplay playsinline muted></video>
+                <img id="prediction" alt="Detected waste from webcam" hidden>
+                <div id="camera-placeholder">Camera preview</div>
+            </div>
+            <canvas id="capture-canvas"></canvas>
+            <div class="controls">
+                <button id="start-camera" type="button">Start Camera</button>
+                <button id="stop-camera" type="button" disabled>Stop</button>
+                <span id="status">Idle</span>
+            </div>
+        </section>
+
+        <aside class="side-panel">
+            <section>
+                <h1>Waste Detection</h1>
+                <p>Camera for live YOLOv5 detection.</p>
+            </section>
+
+            <section class="detections">
+                <h2>Live Results</h2>
+                <ul id="detections-list">
+                    <li>No detections yet</li>
+                </ul>
+            </section>
+
+            <form method="POST" enctype="multipart/form-data" class="upload-form">
                 <input type="file" name="file" accept=".jpg, .jpeg, .png">
                 <input type="submit" value="Upload and Predict">
             </form>
-        </div>
+        </aside>
     </main>
     <footer class="footer">
-        Developed by Alpha Tauri
+        Based on the work of Alpha Tauri. https://github.com/sleepingcat4/wasteclassification
     </footer>
     <div class="bubbles"></div>
     <script src="static/script.js"></script>
