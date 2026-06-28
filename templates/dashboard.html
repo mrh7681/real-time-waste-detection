@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/styles.css">
+    <title>Waste Detection Dashboard</title>
+</head>
+<body class="dashboard-body">
+    <main class="dashboard-shell">
+        <section class="dashboard-hero">
+            <div>
+                <p class="dashboard-kicker">Dashboard</p>
+                <h1>Waste Detection Magnitudes</h1>
+                <p class="dashboard-subtitle">Rolling count per label from the last 5 minutes.</p>
+            </div>
+            <div class="dashboard-status">
+                <span class="status-dot"></span>
+                <span id="dashboard-status-text">Live</span>
+            </div>
+        </section>
+
+        <section class="metric-grid" aria-label="Detection summary">
+            <article class="metric-card">
+                <span>Total Detections</span>
+                <strong id="total-count">{{ dashboard.total }}</strong>
+            </article>
+            <article class="metric-card">
+                <span>Labels Seen</span>
+                <strong id="label-count">{{ dashboard.counts|length }}</strong>
+            </article>
+            <article class="metric-card">
+                <span>Window</span>
+                <strong>{{ dashboard.window_seconds // 60 }} min</strong>
+            </article>
+            <article class="metric-card">
+                <span>Last Refresh</span>
+                <strong id="last-refresh">--</strong>
+            </article>
+        </section>
+
+        <section class="dashboard-camera-grid">
+            <article class="dashboard-panel camera-network-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Camera Nodes</h2>
+                        <p>Start one or more cameras as independent detection sources.</p>
+                    </div>
+                    <span id="camera-status" class="camera-pill">No cameras</span>
+                </div>
+                <div class="dashboard-video-stage">
+                    <img id="dashboard-prediction" alt="Detected waste from dashboard camera" hidden>
+                    <div id="dashboard-camera-placeholder">Select a preview source</div>
+                </div>
+                <div class="camera-controls">
+                    <label for="camera-device-select">Device</label>
+                    <select id="camera-device-select"></select>
+                    <label for="camera-source-id">Source ID</label>
+                    <input id="camera-source-id" type="text" value="dashboard-camera" autocomplete="off">
+                    <button id="dashboard-start-camera" type="button">Start Camera</button>
+                </div>
+                <div class="preview-controls">
+                    <label for="preview-source-select">Preview</label>
+                    <select id="preview-source-select"></select>
+                </div>
+                <div id="local-camera-list" class="camera-list local-camera-list"></div>
+                <div id="hidden-camera-stages" class="hidden-camera-stages"></div>
+            </article>
+
+            <article class="dashboard-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Camera Network</h2>
+                        <p>Active sources in the rolling window.</p>
+                    </div>
+                </div>
+                <div id="camera-list" class="camera-list"></div>
+                <div id="empty-cameras" class="empty-dashboard" hidden>No camera activity yet.</div>
+            </article>
+        </section>
+
+        <section class="dashboard-panel">
+            <div class="panel-heading">
+                <div>
+                    <h2>Counts By Label</h2>
+                    <p id="window-range">Loading window...</p>
+                </div>
+                <a class="json-link" href="/dashboard-data?format=json">JSON</a>
+            </div>
+            <div id="label-bars" class="label-bars"></div>
+            <div id="empty-dashboard" class="empty-dashboard" hidden>No further detection categories.</div>
+        </section>
+    </main>
+
+    <script>
+        window.initialDashboardData = {{ dashboard|tojson }};
+    </script>
+    <script src="static/dashboard.js"></script>
+    <footer class="footer">
+        Based on the work of Alpha Tauri. https://github.com/sleepingcat4/wasteclassification
+    </footer>
+    <div class="bubbles"></div>
+    <script src="static/script.js"></script>
+</body>
+</html>

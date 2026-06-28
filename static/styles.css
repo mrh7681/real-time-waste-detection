@@ -235,3 +235,347 @@ h2 {
         flex-wrap: wrap;
     }
 }
+
+.dashboard-body {
+    background:
+        linear-gradient(180deg, rgba(245, 247, 242, 0.92), rgba(232, 239, 226, 0.98)),
+        #f5f7f2;
+}
+
+.dashboard-shell {
+    width: min(1120px, calc(100% - 32px));
+    margin: 32px auto;
+    display: grid;
+    gap: 20px;
+}
+
+.dashboard-hero {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 4px 0 8px;
+}
+
+.dashboard-kicker {
+    margin-bottom: 8px;
+    color: #496653;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: uppercase;
+}
+
+.dashboard-hero h1 {
+    margin-bottom: 8px;
+    font-size: clamp(34px, 6vw, 64px);
+    line-height: 1;
+}
+
+.dashboard-subtitle {
+    max-width: 540px;
+    color: #46594a;
+    font-size: 18px;
+}
+
+.dashboard-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 36px;
+    padding: 0 12px;
+    border: 1px solid #c7d8c3;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.78);
+    color: #294932;
+    font-weight: 700;
+}
+
+.status-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    background: #2fac54;
+    box-shadow: 0 0 0 4px rgba(47, 172, 84, 0.16);
+}
+
+.metric-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.metric-card,
+.dashboard-panel {
+    border: 1px solid #dce6d5;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 10px 28px rgba(19, 40, 25, 0.08);
+}
+
+.metric-card {
+    display: grid;
+    gap: 8px;
+    min-height: 106px;
+    padding: 18px;
+}
+
+.metric-card span {
+    color: #5b6f60;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.metric-card strong {
+    align-self: end;
+    color: #172018;
+    font-size: 34px;
+    line-height: 1;
+}
+
+.dashboard-panel {
+    padding: 20px;
+}
+
+.dashboard-camera-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+    gap: 20px;
+}
+
+.camera-network-panel {
+    min-width: 0;
+}
+
+.dashboard-video-stage {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 8px;
+    background: #18201a;
+}
+
+#dashboard-webcam,
+#dashboard-prediction,
+#dashboard-camera-placeholder {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#dashboard-webcam,
+#dashboard-prediction {
+    object-fit: cover;
+}
+
+#dashboard-prediction[hidden],
+#dashboard-camera-placeholder[hidden] {
+    display: none;
+}
+
+#dashboard-camera-placeholder {
+    display: grid;
+    place-items: center;
+    color: #d7e5d7;
+    font-size: 18px;
+}
+
+#dashboard-canvas {
+    display: none;
+}
+
+.camera-pill {
+    display: inline-grid;
+    place-items: center;
+    min-height: 34px;
+    padding: 0 10px;
+    border: 1px solid #c7d8c3;
+    border-radius: 999px;
+    color: #294932;
+    background: #f8fbf5;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.camera-controls {
+    display: grid;
+    grid-template-columns: auto minmax(160px, 1fr) auto auto;
+    align-items: center;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.camera-controls label {
+    color: #5b6f60;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.camera-controls input {
+    min-height: 40px;
+    min-width: 0;
+    border: 1px solid #c7d8c3;
+    border-radius: 6px;
+    padding: 0 10px;
+    color: #172018;
+    background: white;
+    font: inherit;
+}
+
+.camera-list {
+    display: grid;
+    gap: 10px;
+}
+
+.camera-row {
+    display: grid;
+    gap: 8px;
+    padding: 14px;
+    border: 1px solid #e0eadb;
+    border-radius: 8px;
+    background: #fbfdf9;
+}
+
+.camera-row-title {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.camera-row-title strong {
+    overflow-wrap: anywhere;
+}
+
+.camera-row-title span {
+    color: #1f7a3a;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.camera-row p {
+    margin: 0;
+    color: #5b6f60;
+    overflow-wrap: anywhere;
+}
+
+.panel-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.panel-heading h2 {
+    margin-bottom: 6px;
+    font-size: 22px;
+}
+
+.panel-heading p {
+    color: #5b6f60;
+    margin-bottom: 0;
+}
+
+.json-link {
+    display: inline-grid;
+    place-items: center;
+    min-height: 36px;
+    padding: 0 12px;
+    border: 1px solid #c7d8c3;
+    border-radius: 6px;
+    color: #1f6034;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.label-bars {
+    display: grid;
+    gap: 12px;
+}
+
+.label-row {
+    display: grid;
+    gap: 8px;
+    padding: 14px;
+    border: 1px solid #e0eadb;
+    border-radius: 8px;
+    background: #fbfdf9;
+}
+
+.label-row-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    color: #172018;
+}
+
+.label-row-header span {
+    color: #1f7a3a;
+    font-weight: 800;
+}
+
+.label-track {
+    height: 12px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #e5eee0;
+}
+
+.label-fill {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #1f7a3a, #57a75d);
+    transition: width 0.3s ease;
+}
+
+.empty-dashboard {
+    display: grid;
+    place-items: center;
+    min-height: 180px;
+    border: 1px dashed #c7d8c3;
+    border-radius: 8px;
+    color: #5b6f60;
+    font-weight: 700;
+}
+
+@media (max-width: 760px) {
+    .dashboard-shell {
+        width: min(100% - 24px, 640px);
+        margin: 20px auto;
+    }
+
+    .dashboard-hero {
+        display: grid;
+    }
+
+    .metric-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dashboard-camera-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .camera-controls {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .camera-controls label,
+    .camera-controls input {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 480px) {
+    .metric-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .panel-heading {
+        display: grid;
+    }
+}
