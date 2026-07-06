@@ -125,16 +125,12 @@ def send_dashboard_payload(payload):
 
 @app.route("/detect", methods=["POST"])
 def receive_detection():
-
     data = request.get_json()
-
     source_id = sanitize_source_id(data["source_id"])
-
     record_detection_events(
         data["detections"],
         source_id
     )
-
     return jsonify({
         "status": "ok"
     })
