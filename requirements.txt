@@ -2,6 +2,7 @@ flask
 argparse
 opencv-python
 numpy
+pandas
 Pillow
 scikit-learn
 torch
