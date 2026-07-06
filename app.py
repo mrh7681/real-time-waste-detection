@@ -55,7 +55,7 @@ def ensure_schema():
 def load_model():
     global model
     if model is None:
-        model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_PATH)
+        model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_PATH, trust_repo=True)
         model.eval()
     return model
 
