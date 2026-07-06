@@ -1,7 +1,5 @@
 flask
 argparse
-datetime
-warnings
 opencv-python
 numpy
 Pillow
