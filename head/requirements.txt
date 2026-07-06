@@ -1,3 +1,4 @@
 flask
 argparse
 sqlalchemy
+Flask-SQLAlchemy
