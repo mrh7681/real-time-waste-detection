@@ -1,6 +1,5 @@
 flask
 argparse
-PIL
 datetime
 warnings
 opencv-python
