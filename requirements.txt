@@ -6,3 +6,4 @@ Pillow
 scikit-learn
 torch
 sqlalchemy
+flask_sqlalchemy
