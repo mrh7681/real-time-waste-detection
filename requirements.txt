@@ -1,10 +1,5 @@
 flask
 argparse
-io
-json
-os
-threading
-urllib.request
 PIL
 datetime
 warnings
