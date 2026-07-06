@@ -1,6 +1,5 @@
 flask
 argparse
-base64
 io
 json
 os
@@ -13,7 +12,5 @@ opencv-python
 numpy
 Pillow
 scikit-learn
-imutils
-matplotlib
 torch
 sqlalchemy
