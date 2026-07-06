@@ -9,3 +9,4 @@ torch
 sqlalchemy
 flask_sqlalchemy
 ultralytics
+tqdm
