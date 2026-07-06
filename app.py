@@ -198,4 +198,4 @@ if __name__ == "__main__":
     with app.app_context():
         ensure_schema()
     load_model()
-    app.run(host="real-time-waste-detection.onrender.com", port=args.port)  # debug=True causes Restarting with stat
+    app.run(host="0.0.0.0", port=args.port)  # debug=True causes Restarting with stat
