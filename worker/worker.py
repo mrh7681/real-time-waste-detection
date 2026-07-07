@@ -51,7 +51,7 @@ if __name__ == "__main__":
         if not ok:
             continue
         detections = run_detection(frame)
-        requests.post(
+        request.post(
             HEAD_DASHBOARD_URL + "/api/detections",
             json={
                 "source_id": DEFAULT_CAMERA_ID,
