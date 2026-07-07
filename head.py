@@ -1,33 +1,26 @@
 import argparse
-import base64
-import io
 import json
 import os
 import threading
 import urllib.request
-from PIL import Image
 import datetime
 import warnings
 
-import torch
-from flask import Flask, render_template, request, redirect, jsonify
+from flask import Flask, render_template, request, redirect, jsonify, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import inspect, text
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 db = SQLAlchemy(app)
-model = None
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 DATETIME_FORMAT = "%Y-%m-%d_%H-%M-%S-%f"
-MODEL_PATH = "best.pt"
 DASHBOARD_WINDOW_SECONDS = 5 * 60
 HEAD_DASHBOARD_URL = os.environ.get("HEAD_DASHBOARD_URL")
 HEAD_DASHBOARD_TOKEN = os.environ.get("HEAD_DASHBOARD_TOKEN")
 DEFAULT_CAMERA_ID = os.environ.get("CAMERA_ID", "dashboard-camera")
-
 
 class DetectionEvent(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -52,29 +45,6 @@ def ensure_schema():
                 f"ADD COLUMN source_id VARCHAR(255) NOT NULL DEFAULT '{default_source_id}'"
             ))
 
-def load_model():
-    global model
-    if model is None:
-        model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_PATH, trust_repo=True)
-        model.eval()
-    return model
-
-def run_detection(img):
-    active_model = load_model()
-    results = active_model([img])
-    detections = []
-
-    for row in results.xyxy[0].detach().cpu().tolist():
-        xmin, ymin, xmax, ymax, confidence, class_id = row[:6]
-        detections.append({
-            "label": results.names[int(class_id)],
-            "confidence": round(float(confidence), 4),
-            "box": [round(float(xmin), 2), round(float(ymin), 2), round(float(xmax), 2), round(float(ymax), 2)]
-        })
-
-    results.render()
-    rendered = Image.fromarray(results.ims[0])
-    return rendered, detections
 
 def record_detection_events(detections, source_id=DEFAULT_CAMERA_ID):
     if not detections:
@@ -154,27 +124,15 @@ def send_dashboard_payload(payload):
 
 
 @app.route("/detect", methods=["POST"])
-def detect_frame():
-    if "frame" not in request.files:
-        return jsonify({"error": "No frame uploaded"}), 400
-
-    frame = request.files["frame"].read()
-    source_id = sanitize_source_id(request.form.get("source_id") or request.args.get("source_id"))
-    img = Image.open(io.BytesIO(frame)).convert("RGB")
-    rendered, detections = run_detection(img)
-    record_detection_events(detections, source_id)
-    dashboard_payload = get_dashboard_payload()
-    send_dashboard_payload(dashboard_payload)
-
-    buffer = io.BytesIO()
-    rendered.save(buffer, format="JPEG", quality=85)
-    encoded_image = base64.b64encode(buffer.getvalue()).decode("utf-8")
-
+def receive_detection():
+    data = request.get_json()
+    source_id = sanitize_source_id(data["source_id"])
+    record_detection_events(
+        data["detections"],
+        source_id
+    )
     return jsonify({
-        "image": f"data:image/jpeg;base64,{encoded_image}",
-        "source_id": source_id,
-        "detections": detections,
-        "dashboard": dashboard_payload
+        "status": "ok"
     })
 
 @app.route("/dashboard-data", methods=["GET"])
@@ -189,13 +147,15 @@ def dashboard_data():
 
     return render_template("dashboard.html", dashboard=payload)
 
+@app.route('/')
+def old_path():
+    return redirect(url_for('dashboard_data'))
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Flask app exposing yolov5 models")
+    parser = argparse.ArgumentParser(description="Flask app")
     parser.add_argument("--port", default=10000, type=int, help="port number")
     args = parser.parse_args()
     
     with app.app_context():
         ensure_schema()
-    load_model()
-    app.run(host="0.0.0.0", port=args.port)  # debug=True causes Restarting with stat
+    app.run(host="0.0.0.0", port=args.port)
