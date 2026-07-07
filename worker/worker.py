@@ -13,7 +13,7 @@ DATETIME_FORMAT = "%Y-%m-%d_%H-%M-%S-%f"
 MODEL_PATH = "best.pt"
 model = None
 DASHBOARD_WINDOW_SECONDS = 5 * 60
-HEAD_SERVER_URL = os.environ.get("HEAD_SERVER_URL")
+HEAD_SERVER_URL = "https://real-time-waste-detection.onrender.com"
 HEAD_SERVER_TOKEN = os.environ.get("HEAD_SERVER_TOKEN")
 DEFAULT_CAMERA_ID = os.environ.get("CAMERA_ID", "dashboard-camera")
 
@@ -46,7 +46,7 @@ def run_detection(img):
 def send_detections(detections):
 
     requests.post(
-        f"{HEAD_SERVER_URL}/api/detections",
+        f"{HEAD_SERVER_URL}/detect",
         json={
             "source_id": DEFAULT_CAMERA_ID,
             "detections": detections
