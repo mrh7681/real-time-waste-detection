@@ -1,23 +1,20 @@
 import argparse
 import io
-import json
 import os
-import threading
-import urllib.request
+import requests
 from PIL import Image
 import datetime
 import warnings
 
 import cv2
 import torch
-from flask import Flask, render_template, request, redirect, jsonify
-from sqlalchemy import inspect, text
 
 DATETIME_FORMAT = "%Y-%m-%d_%H-%M-%S-%f"
 MODEL_PATH = "best.pt"
+model = None
 DASHBOARD_WINDOW_SECONDS = 5 * 60
-HEAD_DASHBOARD_URL = os.environ.get("HEAD_DASHBOARD_URL")
-HEAD_DASHBOARD_TOKEN = os.environ.get("HEAD_DASHBOARD_TOKEN")
+HEAD_SERVER_URL = os.environ.get("HEAD_SERVER_URL")
+HEAD_SERVER_TOKEN = os.environ.get("HEAD_SERVER_TOKEN")
 DEFAULT_CAMERA_ID = os.environ.get("CAMERA_ID", "dashboard-camera")
 
 def load_model():
@@ -26,6 +23,10 @@ def load_model():
         model = torch.hub.load('ultralytics/yolov5', 'custom', path=MODEL_PATH, trust_repo=True)
         model.eval()
     return model
+
+def sanitize_source_id(value):
+    source_id = (value or DEFAULT_CAMERA_ID).strip()
+    return source_id[:255] or DEFAULT_CAMERA_ID
 
 def run_detection(img):
     model = load_model()
@@ -42,6 +43,16 @@ def run_detection(img):
 
     return detections
 
+def send_detections(detections):
+
+    requests.post(
+        f"{HEAD_SERVER_URL}/api/detections",
+        json={
+            "source_id": DEFAULT_CAMERA_ID,
+            "detections": detections
+        },
+        timeout=2
+    )
 
 if __name__ == "__main__":
     load_model()
@@ -51,11 +62,7 @@ if __name__ == "__main__":
         if not ok:
             continue
         detections = run_detection(frame)
-        request.post(
-            HEAD_DASHBOARD_URL + "/api/detections",
-            json={
-                "source_id": DEFAULT_CAMERA_ID,
-                "detections": detections
-            },
-            timeout=2
-        )
+        img = Image.fromarray(frame)
+        detections = run_detection(img)
+        send_detections(detections)
+        
