@@ -6,7 +6,7 @@ import urllib.request
 import datetime
 import warnings
 
-from flask import Flask, render_template, request, redirect, jsonify
+from flask import Flask, render_template, request, redirect, jsonify, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import inspect, text
 
@@ -147,6 +147,9 @@ def dashboard_data():
 
     return render_template("dashboard.html", dashboard=payload)
 
+@app.route('/')
+def old_path():
+    return redirect(url_for('dashboard_data'))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Flask app")
