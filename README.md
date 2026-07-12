@@ -18,5 +18,5 @@ This project's head.py is being run on the service Render, at https://real-time-
 The dashboard response includes both aggregate label counts and per-camera counts.
 
 #### Acknowledgement
-A project developed based on the work by @sleepingcat4 and their team. Licenced under Open Source **GPL 3**.
+A project developed based on the detection model by @sleepingcat4 and their team. Licenced under Open Source **GPL 3**.
 https://github.com/sleepingcat4/wasteclassification 
