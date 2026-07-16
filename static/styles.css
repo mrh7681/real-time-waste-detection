@@ -347,6 +347,7 @@ h2 {
 }
 
 .camera-network-panel {
+    display: none;
     min-width: 0;
 }
 
