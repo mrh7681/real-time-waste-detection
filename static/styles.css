@@ -58,6 +58,7 @@ body {
 #webcam,
 #prediction,
 #camera-placeholder {
+    display: none;
     position: absolute;
     inset: 0;
     width: 100%;
