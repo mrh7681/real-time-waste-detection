@@ -351,6 +351,7 @@ h2 {
 }
 
 .dashboard-video-stage {
+    display: none;
     position: relative;
     overflow: hidden;
     width: 100%;
