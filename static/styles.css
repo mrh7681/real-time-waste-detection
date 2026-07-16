@@ -47,6 +47,7 @@ body {
 }
 
 .video-stage {
+    display: none;
     position: relative;
     overflow: hidden;
     width: 100%;
@@ -80,7 +81,7 @@ body {
 }
 
 #camera-placeholder {
-    display: grid;
+    display: none;
     place-items: center;
     color: #d7e5d7;
     font-size: 18px;
@@ -361,6 +362,7 @@ h2 {
 #dashboard-webcam,
 #dashboard-prediction,
 #dashboard-camera-placeholder {
+    display: none;
     position: absolute;
     inset: 0;
     width: 100%;
@@ -378,7 +380,7 @@ h2 {
 }
 
 #dashboard-camera-placeholder {
-    display: grid;
+    display: none;
     place-items: center;
     color: #d7e5d7;
     font-size: 18px;
