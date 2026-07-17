@@ -15,7 +15,7 @@ model = None
 DASHBOARD_WINDOW_SECONDS = 5 * 60
 HEAD_SERVER_URL = "https://real-time-waste-detection.onrender.com"
 HEAD_SERVER_TOKEN = os.environ.get("HEAD_SERVER_TOKEN")
-DEFAULT_CAMERA_ID = os.environ.get("CAMERA_ID", "dashboard-camera")
+DEFAULT_CAMERA_ID = os.environ.get("CAMERA_ID", "123 Main Street Front Yard")
 
 def load_model():
     global model
